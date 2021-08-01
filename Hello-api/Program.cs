@@ -12,17 +12,12 @@ var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
-app.UseRouting();
 
-app.MapGet("/", () => "Hello World!");
+app.MapGet("/WeatherForecast", ([FromServices] IWeatherForecastController weatherForecastController) =>
+ {
+     var forcasts = weatherForecastController.Get();
 
-app.MapGet("/Forecasts",
-
-([FromServices] IWeatherForecastController weatherForecastController) =>
-{
-    var forcasts = weatherForecastController.Get();
-
-    return forcasts;
-});
+     return forcasts;
+ });
 
 app.Run();
